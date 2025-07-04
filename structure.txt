@@ -1,0 +1,133 @@
+1. Starter Project Boilerplate 🧱
+Here’s the folder structure with file stubs to get you started:
+
+bash
+Copy
+Edit
+hotel-booking-app/
+├── client/                          # React frontend
+│   ├── public/
+│   └── src/
+│       ├── components/
+│       ├── pages/
+│       │   ├── Home.jsx
+│       │   ├── Login.jsx
+│       │   ├── Booking.jsx
+│       ├── services/               # axios API calls
+│       ├── context/                # AuthContext with JWT
+│       ├── App.jsx
+│       └── index.jsx
+├── server/                          # Express backend
+│   ├── controllers/
+│   │   ├── authController.js
+│   │   ├── bookingController.js
+│   │   ├── roomController.js
+│   │   ├── commentController.js
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── bookingRoutes.js
+│   │   ├── roomRoutes.js
+│   │   ├── commentRoutes.js
+│   ├── middlewares/
+│   │   ├── auth.js              # JWT & role verification
+│   ├── models/                  # User, Booking, Room, Comment
+│   ├── utils/
+│   │   ├── jwt.js              # create & verify tokens
+│   │   ├── email.js            # MailerSend integration
+│   ├── config/
+│   │   ├── db.js               # connects Postgres or Mongo
+│   │   ├── paypal.js           # PayPal SDK config
+│   └── server.js               # Express app entrypoint
+├── shared/                      # (optional) types or utils
+├── .env                         # environment variables
+├── .gitignore
+├── package.json
+└── README.md
+🔧 Included Features
+JWT auth with roles (user and admin) via authController.js
+
+Email confirmation using MailerSend (more below)
+
+PayPal integration (checkout + webhook)
+
+Example database models & routes
+
+Ready-to-fill services/ in React to connect frontend and backend
+
+I can scaffold code for each piece (signup/login, booking flow, PayPal checkout, admin panel).
+
+4. Domain & Email Setup 🌐
+A) Domain Purchase Options
+GoDaddy: .mx domain ~ €53/year (some devs report occasional issues)
+
+Alternatives:
+
+Google Domains
+
+Porkbun (usually cheaper and reliable)
+
+Namecheap
+
+B) Connect to Render
+Purchase your domain (e.g., yourhotel.mx).
+
+In Render dashboard → Custom Domains → Add your domain.
+
+Render provides A or CNAME records. Add them in your domain’s DNS settings.
+
+C) Email/Transactional Emails Setup
+You’ll need to verify your domain with MailerSend (or another provider):
+
+Sign up for a MailerSend hobby account.
+
+Add & verify your domain via DNS TXT records.
+
+Create an API token.
+
+In Express's utils/email.js, create functions like sendConfirmationEmail(user, token) using their Node SDK.
+
+After registration, send a confirmation link; on clicking, verify token server-side and mark user.confirmed = true.
+
+D) Email Alternatives
+If email feels heavy, you can:
+
+Enable guest bookings without email verification.
+
+Require email only at checkout, not full sign-up.
+
+Skip domain-based emails, but then you can’t send branded confirmations—still fine technically, but less professional.
+
+📊 MailerSend Free Tier Details
+Free plan (“Hobby”) includes up to 3,000 emails per month, resetting every 30‑day billing period 
+mailersend.com
++13
+mailersend.com
++13
+sprout24.com
++13
+mailersend.com
+mailersend.com
++1
+unione.io
++1
+mailersend.com
+wpmailsmtp.com
++7
+mailersend.com
++7
+mailersend.com
++7
+.
+
+You’ll also have daily API limits (~1,000 calls/day), so it's perfect for transactional needs 
+softwareadvice.com
+.
+
+You can continue sending extra emails past the limit under pay-as-you-go at $1 per 1,000 emails, or simply set billing limits to stop overage 
+mailersend.com
++2
+mailersend.com
++2
+mailersend.com
++2
+.
