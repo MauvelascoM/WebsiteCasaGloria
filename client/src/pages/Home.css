@@ -1,0 +1,168 @@
+.hero-container {
+  height: 100vh;
+  /* background-image: url('/hero.jpg');  */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: white;
+  font-family: 'Georgia', serif;
+}
+
+.hero-navbar {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.contact {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.book-btn {
+  background: white;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.hero-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.hero-text h1 {
+  font-size: 64px;
+  margin: 0;
+}
+
+.hero-text h2 {
+  font-size: 36px;
+  margin-top: 10px;
+  font-weight: 300;
+}
+
+/* Contact Form */
+.contact-form {
+
+    width: 40%;
+    margin-left: auto; /* Center horizontally*/
+    margin-right: auto;/*  Center horizontally  */
+    padding: 20px;
+    background-color:#648f00;
+    box-shadow: gray;
+    text-align: left;
+    border-radius: 15px;
+}
+
+/* Label styling */
+.contact-form label {
+    display: block; /* Label takes up full width */
+    font-size: 18px;
+    margin-bottom: 8px; /* Adds space between label and input */
+}
+
+.contact-form h2 {
+text-align: center;
+}
+/* Input fields, textarea and button styling */
+.contact-form input,
+.contact-form textarea,
+.contact-form button {
+    width: 100%; /* Make all fields take up the same full width */
+    padding: 10px;
+    margin-bottom: 15px; /* Space between each input field */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    box-sizing: border-box; /* Ensure padding doesn't affect the width */
+    margin-left: auto; /* Center horizontally */
+    margin-right: auto; /* Center horizontally */
+}
+/* Button styling */
+.contact-form button {
+    background-color:#fa951a;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.login-container {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    max-width: 800px;
+}
+
+.welcome-section {
+    max-width: 40%;
+}
+
+.welcome-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.login-form {
+    max-width: 50%;
+}
+
+.login-form input[type="email"], .login-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+}
+
+.login-form label, .login-form a {
+    font-size: 0.9rem;
+}
+
+.login-form a {
+    color: #ffa;
+}
+
+.login-form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.login-form button:hover {
+    background-color: #ff4500;
+}
+
+.social-icons {
+    margin-top: 10px;
+}
+
+.social-icons i {
+    margin: 0 5px;
+    font-size: 1.5rem;
+}
