@@ -16,7 +16,7 @@ connectDB();
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:3000', // or '*' for testing only
+  origin: 'https://casagloriaclient.onrender.com', // or '*' for testing only
   credentials: true,
 }));
 app.use(express.json());
