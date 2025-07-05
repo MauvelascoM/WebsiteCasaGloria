@@ -17,7 +17,8 @@ const app = express();
 
 app.use(cors({
   origin: 'https://casagloriaclient.onrender.com', // or '*' for testing only
-  credentials: true,
+   methods: ['GET', 'POST'],
+   credentials: true
 }));
 app.use(express.json());
 
