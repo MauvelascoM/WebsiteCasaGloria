@@ -2,22 +2,46 @@
 const Booking = require('../models/Booking');
 
 exports.createBooking = async (req, res) => {
+  console.log('Received booking payload:', req.body);
   try {
-    // Allow user or guest booking (optional user id)
-    const { room, checkIn, checkOut, guestName } = req.body;
-    const user = req.user?.id || null;
+    const {
+      checkInDate,
+      checkOutDate,
+      guests,
+      selectedRoom,
+      optionalServices,
+      guest,
+      paymentMethod
+    } = req.body;
 
-    if (!room || !checkIn || !checkOut) {
-      return res.status(400).json({ msg: 'Missing required fields' });
+    if (!selectedRoom || !checkInDate || !checkOutDate || !guest?.fullName || !guest?.email) {
+      return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const booking = new Booking({ user, room, checkIn, checkOut, guestName, status: 'pending' });
+    // Generate a unique bookingId (e.g., timestamp + random)
+    const bookingId = `BK-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+
+    const booking = new Booking({
+      checkInDate,
+      checkOutDate,
+      guests,
+      roomId: selectedRoom._id,
+      services: optionalServices || {},
+      guest,
+      paymentMethod: paymentMethod || 'onArrival',
+      bookingId
+    });
+
     await booking.save();
-    res.status(201).json(booking);
+
+    console.log('Booking created:', booking);
+    res.status(201).json({ message: 'Booking successful', bookingId: booking.bookingId });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Booking creation failed:', err);
+    res.status(500).json({ error: 'Server error' });
   }
 };
+
 
 exports.getUserBookings = async (req, res) => {
   try {

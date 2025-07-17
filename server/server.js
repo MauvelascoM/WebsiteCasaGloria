@@ -4,11 +4,12 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
-
 const authRoutes = require('./routes/authRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const roomRoutes = require('./routes/roomRoutes');
 const paypalRoutes = require('./routes/paypalRoutes');
+// const roomAvailableRoutes = require('./routes/roomsAvailable');
+
 
 dotenv.config();
 connectDB();
@@ -16,8 +17,8 @@ connectDB();
 const app = express();
 
 app.use(cors({
-  origin: 'https://casagloriaclient.onrender.com', // or '*' for testing only
-   methods: ['GET', 'POST'],
+  origin: 'https://casagloriaclient.onrender.com',
+   methods: ['GET', 'POST','PUT'],
    credentials: true
 }));
 app.use(express.json());
@@ -28,6 +29,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/rooms', roomRoutes);
 app.use('/api/paypal', paypalRoutes);
+// app.use('/api/rooms/available', roomAvailableRoutes);
 
 
 // Server start

@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import api from '../services/api';
-import { useNavigate } from 'react-router-dom';
-import './Home.css';
+// BookingStep1.jsx – Select dates and number of guests (with regular CSS)
 import { useBooking } from '../context/BookingContext';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import './BookingStep1.css';
 
-
-
-
-
-export default function Home() {
-
- const { bookingData, setBookingData } = useBooking();
+export default function BookingStep1() {
+  const { bookingData, setBookingData } = useBooking();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -29,20 +24,20 @@ export default function Home() {
   };
 
   return (
-    <div className="hero-container" style={{ backgroundImage: `url(/hero.jpg)` }}>
-    
-      <div className="hero-text">
-        <h1>Casa Gloria</h1>
-        <h2>Tequisquiapan, Queretaro, Mexico</h2>
+    <div className="step-container">
+      <h2>Step 1: Select Dates and Guests</h2>
+  {/* Progress Bar */}
+      <div className="progress-bar">
+        <div className="progress-fill" style={{
+      width: '20%'
+    }}></div>
       </div>
-
-<div className="hero-booking">
-
+      
       <label>
         Check-In Date
         <input
           type="date"
-          name="checkInDate1"
+          name="checkInDate"
           value={form.checkInDate}
           onChange={handleChange}
         />
@@ -69,12 +64,7 @@ export default function Home() {
         />
       </label>
 
-      <button onClick={handleNext}>Reservar!</button>
+      <button onClick={handleNext}>Next</button>
     </div>
-
-    </div>
-    
-
-    
   );
 }

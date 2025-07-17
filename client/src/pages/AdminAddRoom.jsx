@@ -7,6 +7,7 @@ export default function AdminAddRoom() {
     description: '',
     price: '',
     capacity: '',
+    images: '', // input for comma-separated URLs
   });
 
   const handleChange = (e) => {
@@ -16,7 +17,13 @@ export default function AdminAddRoom() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.post('/rooms', roomData);
+      const payload = {
+        ...roomData,
+        price: Number(roomData.price),
+        capacity: Number(roomData.capacity),
+        images: roomData.images.split(',').map(url => url.trim()).filter(Boolean),
+      };
+      await api.post('/rooms', payload);
       alert('Room added!');
     } catch (err) {
       console.error(err);
@@ -31,6 +38,7 @@ export default function AdminAddRoom() {
       <textarea name="description" placeholder="Description" onChange={handleChange} />
       <input name="price" type="number" placeholder="Price" onChange={handleChange} required />
       <input name="capacity" type="number" placeholder="Capacity" onChange={handleChange} required />
+      <input name="images" placeholder="Image URLs (comma-separated)" onChange={handleChange} />
       <button type="submit">Add Room</button>
     </form>
   );

@@ -13,12 +13,12 @@ export default function Navbar() {
             <li><Link to="/" className="navbar-link">Home</Link></li>
           <li><Link to="/login" className="navbar-link">Login</Link></li>
           <li><Link to="/register" className="navbar-link">Register</Link></li>
-          {/* <li><Link to="/booking" className="navbar-link">Booking</Link></li> */}
+          <li><Link to="/rooms" className="navbar-link">Rooms</Link></li>
         </ul></div>
       <div className="nav-center"><img src="/IMAGOTIPO.jpg" alt="" width={50}/></div> 
       <div className="nav-right">
-        <span>📞 +41 22 779 33 33</span>
-        <span className="book-now"><Link to="/booking" className="navbar-link">📩 Book Now </Link></span>
+        <span>📞 +427 1 650 602</span>
+        <span className="book-now"><Link to="/booking/step1" className="navbar-link">📩 Book Now </Link></span>
       </div>
     </div>
 

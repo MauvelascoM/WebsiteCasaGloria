@@ -1,0 +1,70 @@
+.step-container {
+  max-width: 600px;
+  margin: 50px auto;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #333;
+}
+
+/* Progress Bar */
+.progress-bar {
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.progress-fill {
+  width: 20%; /* 20% for Step 1 */
+  height: 10px;
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  transition: width 0.4s;
+}
+
+.step-container label {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  color: #555;
+}
+
+.step-container img {
+  width: 700px;
+  width: 580px;
+}
+
+.step-container input[type="date"],
+.step-container input[type="number"] {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.step-container button {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.2rem;
+  color: white;
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: background 0.3s;
+}
+
+.step-container  button:hover {
+  background: linear-gradient(90deg, #43e97b, #38f9d7);
+}

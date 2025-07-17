@@ -1,28 +1,3 @@
-// import logo from './logo.svg';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
 
 // client/src/App.jsx
 import React from 'react';
@@ -32,9 +7,12 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Checkout from './pages/Checkout';
-import Booking from './pages/Booking';
+import Rooms from './pages/Rooms';
 import AdminAddRoom from './pages/AdminAddRoom';
+import AdminRooms from './pages/AdminRooms';
 import Home from './pages/Home';
+import { BookingProvider } from './context/BookingContext';
+import BookingRoutes from './pages/BookingRoutes';
 
 
 
@@ -46,46 +24,35 @@ const PrivateRoute = ({ children }) => {
 
 function App() {
   return (
-<AuthProvider>
+    <AuthProvider>
+      <BookingProvider>
         <Router>
-      
-      <Navbar />
-      <div className="p-4">
-        <Routes>
-          <Route path="/" element={<Home />}/>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/booking" element={<Booking />} />
-          <Route path="/adminaddroom" element={<AdminAddRoom />} />
-        </Routes>
-      </div>
+          <Navbar />
+          <div className="p-4">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/booking/*" element={<BookingRoutes />} />
+              <Route path="/rooms" element={<Rooms />} />
+              
+              {/* Protected Booking Routes */}
+              {/* <Route
+                path="/booking/*"
+                element={
+                  <PrivateRoute>
+                    <BookingRoutes />
+                  </PrivateRoute>
+                }
+              /> */}
 
-    </Router>
-</AuthProvider>
-    // <AuthProvider>
-    //   <Router>
-    //     <Routes>
-    //       <Route path="/login" element={<Login />} />
-    //       <Route path="/register" element={<Register />} />
-    //        <Route path="/booking" element={<Booking />} />
-    //       <Route path="/adminaddroom" element={<AdminAddRoom />} />
-    //     <Route path="/checkout" element={<Checkout />} />
-    //       {/* Example of a protected route */}
-    //       <Route
-    //         path="/dashboard"
-    //         element={
-    //           <PrivateRoute>
-    //             <div>
-    //               <h2>Dashboard (protected)</h2>
-    //               {/* Here you will later add booking/room pages */}
-    //             </div>
-    //           </PrivateRoute>
-    //         }
-    //       />
-    //       <Route path="*" element={<Navigate to="/login" />} />
-    //     </Routes>
-    //   </Router>
-    // </AuthProvider>
+              <Route path="/adminaddroom" element={<AdminAddRoom />} />
+              <Route path="/adminrooms" element={<AdminRooms />} />
+            </Routes>
+          </div>
+        </Router>
+      </BookingProvider>
+    </AuthProvider>
   );
 }
 
