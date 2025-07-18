@@ -42,7 +42,7 @@ export default function Home() {
         Check-In Date
         <input
           type="date"
-          name="checkInDate1"
+          name="checkInDate"
           value={form.checkInDate}
           onChange={handleChange}
         />

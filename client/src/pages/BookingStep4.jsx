@@ -8,9 +8,8 @@ export default function BookingStep4() {
   const navigate = useNavigate();
 
   const { checkInDate, checkOutDate, guests, selectedRoom, optionalServices } = bookingData;
-
   const totalNights = (new Date(checkOutDate) - new Date(checkInDate)) / (1000 * 60 * 60 * 24);
-  const roomCost = selectedRoom?.price || 0;
+  const roomCost = selectedRoom?.price*(1-(4-bookingData.guests)*0.08) || 0;
   const servicesCost =
     (optionalServices?.breakfast ? 10 : 0) +
     (optionalServices?.earlyCheckIn ? 15 : 0) +
@@ -46,7 +45,7 @@ export default function BookingStep4() {
         <p><strong>Total Cost:</strong> ${totalCost}</p>
       </div>
 
-      <button onClick={() => navigate('/booking/step5')}>Proceed to Payment</button>
+      <button onClick={() => navigate('/checkout')}>Proceed to Payment</button>
     </div>
   );
 } 

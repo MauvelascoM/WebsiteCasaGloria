@@ -24,7 +24,7 @@ h2 {
 }
 
 .progress-fill {
-  width: 20%; /* 20% for Step 1 */
+  
   height: 10px;
   background: linear-gradient(90deg, #4facfe, #00f2fe);
   transition: width 0.4s;
