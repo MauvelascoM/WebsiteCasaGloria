@@ -54,12 +54,12 @@ export default function Checkout() {
     };
 
     loadPayPalScript();
-  }, [navigate, totalCost]);
+  }, [navigate, total]);
 
   return (
     <div>
       <h2>Checkout</h2>
-      <p><strong>Total:</strong> ${totalCost.toFixed(2)}</p>
+      <p><strong>Total:</strong> ${total.toFixed(2)}</p>
 
       {paid ? (
         <p style={{ color: 'green' }}>✅ Payment successful! Redirecting...</p>
