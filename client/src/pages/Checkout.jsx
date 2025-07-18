@@ -17,7 +17,7 @@ export default function Checkout() {
     (optionalServices?.breakfast ? 10 : 0) +
     (optionalServices?.earlyCheckIn ? 15 : 0) +
     (optionalServices?.pets ? 20 : 0);
-  const totalCost = totalNights * roomCost + servicesCost;
+  const total = totalNights * roomCost + servicesCost;
 
   useEffect(() => {
     const loadPayPalScript = async () => {
@@ -34,7 +34,7 @@ export default function Checkout() {
     const renderPayPalButtons = () => {
       window.paypal.Buttons({
         createOrder: async () => {
-          const res = await api.post('/paypal/create-order', { totalCost });
+          const res = await api.post('/paypal/create-order', { total });
           return res.data.id;
         },
         onApprove: async (data) => {
