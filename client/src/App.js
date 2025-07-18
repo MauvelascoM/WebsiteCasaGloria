@@ -35,6 +35,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/booking/*" element={<BookingRoutes />} />
               <Route path="/rooms" element={<Rooms />} />
+              <Route path="/checkout" element={<Checkout />} />
               
               {/* Protected Booking Routes */}
               {/* <Route
