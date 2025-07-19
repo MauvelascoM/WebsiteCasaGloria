@@ -1,16 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
-import api from '../services/api';
 import { useBooking } from '../context/BookingContext';
-import { useNavigate } from 'react-router-dom';
+import api from '../services/api';
 
-export default function Checkout() {
-  const { bookingData } = useBooking();
+export default function BookingCheckout() {
+  const { bookingData, setBookingData } = useBooking();
   const paypalRef = useRef();
+
+  const [guestInfo, setGuestInfo] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    address: ''
+  });
+
   const [paid, setPaid] = useState(false);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const { checkInDate, checkOutDate, guests, selectedRoom, optionalServices } = bookingData;
+
   const totalNights = (new Date(checkOutDate) - new Date(checkInDate)) / (1000 * 60 * 60 * 24);
   const roomCost = selectedRoom?.price * (1 - (4 - guests) * 0.08) || 0;
   const servicesCost =
@@ -18,6 +26,10 @@ export default function Checkout() {
     (optionalServices?.earlyCheckIn ? 15 : 0) +
     (optionalServices?.pets ? 20 : 0);
   const total = totalNights * roomCost + servicesCost;
+
+  const handleGuestChange = (e) => {
+    setGuestInfo({ ...guestInfo, [e.target.name]: e.target.value });
+  };
 
   useEffect(() => {
     const loadPayPalScript = async () => {
@@ -39,30 +51,55 @@ export default function Checkout() {
         },
         onApprove: async (data) => {
           try {
-            const res = await api.post('/paypal/capture-order', { orderID: data.orderID });
+            await api.post('/paypal/capture-order', { orderID: data.orderID });
+
+            // Send booking data to backend
+            const payload = {
+              checkInDate,
+              checkOutDate,
+              guests,
+              selectedRoom,
+              optionalServices,
+              guest: guestInfo,
+              paymentMethod: 'PayPal'
+            };
+
+            const bookingRes = await api.post('/bookings', payload);
+            setBookingData({ ...bookingData, bookingId: bookingRes.data.bookingId });
+
             setPaid(true);
-            navigate('/booking/confirmation');  // ✅ Redirect after payment
+            setSuccessMessage('✅ Booking complete! You will receive a confirmation email.');
+            navigate('/booking/confirmation');
           } catch (err) {
-            setError('Payment failed during capture.');
+            console.error(err);
+            setError('Failed to complete booking after payment.');
           }
         },
         onError: (err) => {
           console.error(err);
-          setError('PayPal checkout error.');
+          setError('Payment error, please try again.');
         },
       }).render(paypalRef.current);
     };
 
     loadPayPalScript();
-  }, [navigate, total]);
+  }, [guestInfo]);
 
   return (
-    <div>
-      <h2>Checkout</h2>
-      <p><strong>Total:</strong> ${total.toFixed(2)}</p>
+    <div className="checkout-page">
+      <h2>Step 5: Guest Info & Payment</h2>
+
+      <div className="guest-form">
+        <input name="fullName" placeholder="Full Name" onChange={handleGuestChange} />
+        <input name="email" placeholder="Email" onChange={handleGuestChange} />
+        <input name="phone" placeholder="Phone" onChange={handleGuestChange} />
+        <input name="address" placeholder="Address" onChange={handleGuestChange} />
+      </div>
+
+      <h3>Total: ${total.toFixed(2)}</h3>
 
       {paid ? (
-        <p style={{ color: 'green' }}>✅ Payment successful! Redirecting...</p>
+        <p style={{ color: 'green' }}>{successMessage}</p>
       ) : (
         <div ref={paypalRef}></div>
       )}
