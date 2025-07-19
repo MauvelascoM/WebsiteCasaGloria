@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useBooking } from '../context/BookingContext';
 import api from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 export default function BookingCheckout() {
   const { bookingData, setBookingData } = useBooking();
   const paypalRef = useRef();
-
+const navigate = useNavigate();
   const [guestInfo, setGuestInfo] = useState({
     fullName: '',
     email: '',
