@@ -62,8 +62,11 @@ export default function BookingCheckout() {
   checkOutDate: bookingData.checkOutDate,
   guests: bookingData.guests,
   selectedRoom: bookingData.selectedRoom,
+  optionalServices,
   guest: guestInfo,
   paymentMethod: 'Card/Paypal'
+
+
 };
 
             const res = await api.post('/bookings', payload);
