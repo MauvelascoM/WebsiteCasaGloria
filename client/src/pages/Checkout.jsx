@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useBooking } from '../context/BookingContext';
 import api from '../services/api';
-import { useNavigate } from 'react-router-dom';
 
 export default function BookingCheckout() {
   const { bookingData, setBookingData } = useBooking();
   const paypalRef = useRef();
-const navigate = useNavigate();
+
   const [guestInfo, setGuestInfo] = useState({
     fullName: '',
     email: '',
@@ -15,8 +14,8 @@ const navigate = useNavigate();
   });
 
   const [paid, setPaid] = useState(false);
+  const [confirmationId, setConfirmationId] = useState('');
   const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
 
   const { checkInDate, checkOutDate, guests, selectedRoom, optionalServices } = bookingData;
 
@@ -32,6 +31,7 @@ const navigate = useNavigate();
     setGuestInfo({ ...guestInfo, [e.target.name]: e.target.value });
   };
 
+  // ✅ PayPal loads only ONCE
   useEffect(() => {
     const loadPayPalScript = async () => {
       if (!window.paypal) {
@@ -54,7 +54,7 @@ const navigate = useNavigate();
           try {
             await api.post('/paypal/capture-order', { orderID: data.orderID });
 
-            // Send booking data to backend
+            // ✅ After payment → Send Booking
             const payload = {
               checkInDate,
               checkOutDate,
@@ -66,25 +66,22 @@ const navigate = useNavigate();
             };
 
             const bookingRes = await api.post('/bookings', payload);
-            setBookingData({ ...bookingData, bookingId: bookingRes.data.bookingId });
-
+            setConfirmationId(bookingRes.data.bookingId || bookingRes.data._id);
             setPaid(true);
-            setSuccessMessage('✅ Booking complete! You will receive a confirmation email.');
-            navigate('/booking/confirmation');
           } catch (err) {
             console.error(err);
-            setError('Failed to complete booking after payment.');
+            setError('Payment completed but failed to save booking.');
           }
         },
         onError: (err) => {
           console.error(err);
-          setError('Payment error, please try again.');
-        },
+          setError('PayPal checkout error.');
+        }
       }).render(paypalRef.current);
     };
 
     loadPayPalScript();
-  }, [guestInfo]);
+  }, []); // ✅ Empty dependency, runs once
 
   return (
     <div className="checkout-page">
@@ -100,7 +97,10 @@ const navigate = useNavigate();
       <h3>Total: ${total.toFixed(2)}</h3>
 
       {paid ? (
-        <p style={{ color: 'green' }}>{successMessage}</p>
+        <div>
+          <p style={{ color: 'green' }}>✅ Booking confirmed!</p>
+          <p>Your booking ID: <strong>{confirmationId}</strong></p>
+        </div>
       ) : (
         <div ref={paypalRef}></div>
       )}
