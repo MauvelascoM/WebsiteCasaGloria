@@ -31,7 +31,6 @@ export default function BookingCheckout() {
     setGuestInfo({ ...guestInfo, [e.target.name]: e.target.value });
   };
 
-  // ✅ PayPal loads only ONCE
   useEffect(() => {
     const loadPayPalScript = async () => {
       if (!window.paypal) {
@@ -54,16 +53,16 @@ export default function BookingCheckout() {
           try {
             await api.post('/paypal/capture-order', { orderID: data.orderID });
 
-            // ✅ After payment → Send Booking
+     
             const payload = {
-              checkInDate,
-              checkOutDate,
-              guests,
-              selectedRoom,
-              optionalServices,
-              guest: guestInfo,
-              paymentMethod: 'PayPal'
-            };
+                checkInDate,
+                checkOutDate,
+                guests,
+                roomId: selectedRoom._id, 
+                services: optionalServices,
+                guest: guestInfo,
+                paymentMethod: 'PayPal'
+                  };
 
             const bookingRes = await api.post('/bookings', payload);
             setConfirmationId(bookingRes.data.bookingId || bookingRes.data._id);
@@ -81,7 +80,7 @@ export default function BookingCheckout() {
     };
 
     loadPayPalScript();
-  }, []); // ✅ Empty dependency, runs once
+  }, []); 
 
   return (
     <div className="checkout-page">
