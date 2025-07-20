@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useBooking } from '../context/BookingContext';
 import api from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 export default function BookingCheckout() {
   const { bookingData, setBookingData } = useBooking();
   const paypalRef = useRef();
+  const navigate = useNavigate();
 
   const [guestInfo, setGuestInfo] = useState({
     fullName: '',
@@ -54,19 +56,21 @@ export default function BookingCheckout() {
             await api.post('/paypal/capture-order', { orderID: data.orderID });
 
      
-            const payload = {
-                checkInDate,
-                checkOutDate,
-                guests,
-                roomId: selectedRoom._id, 
-                services: optionalServices,
-                guest: guestInfo,
-                paymentMethod: 'PayPal'
-                  };
 
-            const bookingRes = await api.post('/bookings', payload);
-            setConfirmationId(bookingRes.data.bookingId || bookingRes.data._id);
+                  const payload = {
+  checkInDate: bookingData.checkInDate,
+  checkOutDate: bookingData.checkOutDate,
+  guests: bookingData.guests,
+  selectedRoom: bookingData.selectedRoom,
+  guest: guestInfo,
+  paymentMethod: 'Card/Paypal'
+};
+
+            const res = await api.post('/bookings', payload);
+
             setPaid(true);
+            setBookingData({ ...bookingData, bookingId: res.data.bookingId });
+            navigate('/booking/confirmation');
           } catch (err) {
             console.error(err);
             setError('Payment completed but failed to save booking.');
@@ -98,7 +102,6 @@ export default function BookingCheckout() {
       {paid ? (
         <div>
           <p style={{ color: 'green' }}>✅ Booking confirmed!</p>
-          <p>Your booking ID: <strong>{confirmationId}</strong></p>
         </div>
       ) : (
         <div ref={paypalRef}></div>
