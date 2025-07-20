@@ -4,15 +4,7 @@ const Booking = require('../models/Booking');
 exports.createBooking = async (req, res) => {
   console.log('Received booking payload:', req.body);
   try {
-    const {
-      checkInDate,
-      checkOutDate,
-      guests,
-      selectedRoom,
-      optionalServices,
-      guest,
-      paymentMethod
-    } = req.body;
+  const { checkInDate, checkOutDate, guests, roomId, optionalServices, guest, paymentMethod } = req.body;
 
     if (!selectedRoom || !checkInDate || !checkOutDate || !guest?.fullName || !guest?.email) {
       return res.status(400).json({ error: 'Missing required fields' });
@@ -21,16 +13,16 @@ exports.createBooking = async (req, res) => {
     // Generate a unique bookingId (e.g., timestamp + random)
     const bookingId = `BK-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
-    const booking = new Booking({
-      checkInDate,
-      checkOutDate,
-      guests,
-      roomId: selectedRoom._id,
-      services: optionalServices || {},
-      guest,
-      paymentMethod: paymentMethod || 'onArrival',
-      bookingId
-    });
+const booking = new Booking({
+  checkInDate,
+  checkOutDate,
+  guests,
+  roomId,
+  services: optionalServices || {},
+  guest,
+  paymentMethod: paymentMethod || 'onArrival',
+  bookingId
+});
 
     await booking.save();
 
